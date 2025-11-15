@@ -22,4 +22,12 @@ class StringGenerator(Generator):
         for i in range(0, string_length):
             out += chr(random.randrange(self.char_start, self.char_start + self.char_range))
         return out
+
+class IntegerGenerator(Generator):
+    def __init__(self, min_value: int = 0, max_value: int = 100):
+        self.min_value = min_value
+        self.max_value = max_value
+
+    def generate(self):
+        return random.randint(self.min_value, self.max_value)
     
