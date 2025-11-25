@@ -1,6 +1,7 @@
 from src.runner import Runner, FunctionRunner
 from src.fuzzer import Fuzzer
 from src.generator import StringGenerator
+from FunctionTree.function_info import FunctionInfo 
 
 def test_function(s: str) -> int:
     if not s:
