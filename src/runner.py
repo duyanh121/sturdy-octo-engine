@@ -3,6 +3,9 @@ from typing import List, Type, Optional, Any, Callable
 from dataclasses import dataclass
 from enum import Enum
 import subprocess
+import os
+import subprocess
+
 
 class RunnerStatus(Enum):
     PASS = "pass"
@@ -31,11 +34,27 @@ class Runner:
             self.generators.append(argument())
 
     def run(self) -> RunnerResult: 
-        result = subprocess.run(["python", self.filename] + [generator.generate() for generator in self.generators],
+        # Prepare the arguments that were originally passed to Python
+        script_args = [generator.generate() for generator in self.generators]
+
+        # Build the docker run command
+        docker_cmd = [
+            "docker", "run",
+            "--rm",
+            "-v", f"{os.getcwd()}:/app",   # mount project root → /app
+            "-w", "/app",                  # working directory
+            "my-python-runner",            # image name
+            "python", f"{self.filename}",  # run your script inside src/
+            *script_args
+        ]
+
+        result = subprocess.run(
+            docker_cmd,
             stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            universal_newlines=True)
+            universal_newlines=True
+        )
         
         status = RunnerStatus.PASS if result.returncode == 0 else RunnerStatus.FAIL
         return RunnerResult(status, result.stdout, result.stderr, result)
