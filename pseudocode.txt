@@ -1,0 +1,33 @@
+function FuzzingLoop(codebase) {
+    f <- ListPublicFunctions(codebase)
+    h <- ParameterHintAnalysis(codebase)
+    s <- StaticTypeAnalysis(codebase)
+
+    for each public function i {
+        f[i].parameterTypes <- []
+
+        f[i].parameterTypes <- f[i].parameterTypes + [any, any, ...]
+
+        if h[i] exists {
+            f[i].parameterTypes <- f[i].parameterTypes + h[i]
+        }
+
+        if s[i] exists {
+            f[i].parameterTypes <- f[i].parameterTypes + s[i]
+        }
+    }
+
+    typeErrorList <- []
+
+    while not converged {
+        for each public function i {
+            reflection, typeErrors <- Fuzz(f[i])
+            f <- UpdateF(f, reflection)
+            typeErrorList <- typeErrorList + typeErrors
+        }
+    }
+
+    return typeErrorList
+}
+
+

@@ -83,7 +83,7 @@ def is_public_function(finfo: FunctionInfo) -> bool:
 
 def main():
     curr_dir = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join("..", "ExampleRepos", "numpy")   # go up one folder and into ExampleRepos
+    path = os.path.join("..", "repos", "numpy")   # go up one folder and into ExampleRepos
     root = os.path.abspath(os.path.join(curr_dir, path))     
     public_only = True            # or False
 
@@ -115,7 +115,8 @@ def main():
         json.dump(out, f, indent=2)
     print("Saved to:", output_path)
 
-main()
+if __name__ == "__main__":
+    main()
 
 
 
