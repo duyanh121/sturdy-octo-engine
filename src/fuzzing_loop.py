@@ -4,6 +4,7 @@ from typing import Any
 import logging
 from helpers import merge_list_dicts_stable
 import json
+from fuzzer import fuzz
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -53,9 +54,16 @@ def fuzzing_loop(repo_path: Path):
     static_analysis_parameter_types = {}
     # ...
 
-
     function_parameter_types = merge_list_dicts_stable(default_parameter_types, type_hint_parameter_types, static_analysis_parameter_types)
+    # function_parameter_types["abc"] = [[any, any]]
 
+    while True:
+        for func in function_list:
+            fuzz(function_list[func], function_parameter_types[func])
+        
+
+        break
+    
 
 
 if __name__ == "__main__":
