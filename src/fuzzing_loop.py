@@ -1,10 +1,18 @@
 import sys
+import os
 from pathlib import Path
 from typing import Any
 import logging
-from helpers import merge_list_dicts_stable
+import typing
+# Set up root for imports
+root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(root)
+
+from src.helpers import merge_list_dicts_stable
 import json
-from fuzzer import fuzz
+from FunctionTree import function_tree
+# from fuzzer import fuzz
+
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -15,6 +23,10 @@ logging.basicConfig(
         logging.StreamHandler(sys.stdout)
     ]
 )
+
+
+
+
 
 logger = logging.getLogger('fuzzing_loop')
 
@@ -33,8 +45,12 @@ def fuzzing_loop(repo_path: Path):
     # Generate function tree function tree
     logger.info(f"Generating function tree from {repo_path}...")
     function_list = {}
-    with open("FunctionTree\\function_tree.json", 'r') as file:
-        function_list = json.load(file)["functions"]
+    
+    # If want to generate a new function tree, run this:
+    function_tree.generate_function_tree(str(repo_path))
+    
+    function_list = function_tree.get_function_tree()
+
 
     # Generate default parameter types
     logger.info("Generating default parameter types...")
@@ -42,7 +58,7 @@ def fuzzing_loop(repo_path: Path):
     for func in function_list:
         default_parameter_types[func] = [Any for _ in function_list[func]["params"]]
 
-
+    print(default_parameter_types)
     # Generate parameter types from type hints
     logger.info("Generating parameter types from type hints...")
     type_hint_parameter_types = {}
@@ -64,7 +80,10 @@ def fuzzing_loop(repo_path: Path):
 
         break
     
-
+def fuzz(function_info, parameter_types):
+    pass
+    # Implement fuzzing logic here
+    # ...
 
 if __name__ == "__main__":
     repo_path = Path("repos/numpy")

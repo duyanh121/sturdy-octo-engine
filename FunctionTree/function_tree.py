@@ -1,8 +1,7 @@
 import os
-import sys
-from function_info import FunctionInfo
+from FunctionTree.function_info import FunctionInfo
 import ast
-from ast_function_visitor import FunctionCollector
+from FunctionTree.ast_function_visitor import FunctionCollector
 from collections import defaultdict
 import json
 
@@ -81,9 +80,16 @@ def is_public_function(finfo: FunctionInfo) -> bool:
     return True
 
 
-def main():
+def generate_function_tree(path: str) -> None: 
+    '''
+    Generate a new function tree
+    
+    :param path: path to the repo
+    :type path: str
+    '''
+
     curr_dir = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join("..", "repos", "numpy")   # go up one folder and into ExampleRepos
+    path = os.path.join("..", path)   # go up one folder and into ExampleRepos
     root = os.path.abspath(os.path.join(curr_dir, path))     
     public_only = True            # or False
 
@@ -115,8 +121,19 @@ def main():
         json.dump(out, f, indent=2)
     print("Saved to:", output_path)
 
-if __name__ == "__main__":
-    main()
 
+
+def get_function_tree() -> dict[str, dict]:  # Load existing function tree from JSON
+    with open("FunctionTree\\function_tree.json", 'r') as file:
+        function_list = json.load(file)["functions"]
+    
+    # Output format: dict{str, dict[str, Any]}
+    # {'_pyinstaller.tests.test_pyinstaller.test_pyinstaller': 
+    # {'params': ['mode', 'tmp_path'], 
+    # 'filename': 'd:\\All Python Project\\UROP\\repos\\numpy\\_pyinstaller\\tests\\test_pyinstaller.py', 
+    # 'lineno': 13, 
+    # 'calls': ['_core.defchararray.chararray.strip', '_core.strings.strip', 'f2py.diagnose.run']
+    #,...}
+    return function_list
 
 

@@ -28,3 +28,6 @@ class Fuzzer:
             print(f"Fuzzing complete: {trails} trials, {result_pass} passes, {result_fail} fails.")
 
         return results
+    
+def fuzz(function_list, function_parameter_types):
+    pass
