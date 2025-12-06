@@ -1,4 +1,17 @@
 {
     "python.analysis.autoImportCompletions": true,
-    "python.analysis.typeCheckingMode": "standard"
+    "python.analysis.typeCheckingMode": "standard",
+
+    "search.exclude": {
+        "**/repos": true,
+    },
+
+    "files.exclude": {
+        "**/*.egg-info": true,
+        "**/*__pycache__": true
+    },
+
+    "python.analysis.ignore": [
+        "**/downloads/**",
+    ],
 }
