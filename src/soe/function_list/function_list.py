@@ -80,7 +80,7 @@ def is_public_function(finfo: FunctionInfo) -> bool:
     return True
 
 
-def generate_function_tree(path: str) -> None: 
+def generate_function_list(path: str) -> None: 
     '''
     Generate a new function tree
     
@@ -116,15 +116,15 @@ def generate_function_tree(path: str) -> None:
         }
     }
 
-    output_path = os.path.join(curr_dir, "function_tree.json")
+    output_path = os.path.join(curr_dir, "function_list.json")
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2)
     print("Saved to:", output_path)
 
 
 
-def get_function_tree() -> dict[str, dict]:  # Load existing function tree from JSON
-    with open("FunctionTree\\function_tree.json", 'r') as file:
+def get_function_list() -> dict[str, dict]:  # Load existing function tree from JSON
+    with open("src\\soe\\function_list\\function_list.json", 'r') as file:
         function_list = json.load(file)["functions"]
     
     # Output format: dict{str, dict[str, Any]}

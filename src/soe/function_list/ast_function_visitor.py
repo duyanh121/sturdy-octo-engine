@@ -1,7 +1,7 @@
 # ast_function_visitor.py
 import ast
 from typing import Dict, Optional
-from FunctionTree.function_info import FunctionInfo
+from soe.function_list.function_info import FunctionInfo
 
 
 class FunctionCollector(ast.NodeVisitor):

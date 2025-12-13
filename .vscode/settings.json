@@ -4,6 +4,7 @@
 
     "search.exclude": {
         "**/downloads/": true,
+        "**/repos/**": true,
     },
 
     "files.exclude": {
