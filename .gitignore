@@ -1,6 +1,4 @@
 # sturdy-octo-engine
-repos/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
