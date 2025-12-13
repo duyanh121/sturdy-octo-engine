@@ -1,7 +1,7 @@
 import os
-from FunctionTree.function_info import FunctionInfo
+from .function_info import FunctionInfo
 import ast
-from FunctionTree.ast_function_visitor import FunctionCollector
+from .ast_function_visitor import FunctionCollector
 from collections import defaultdict
 import json
 

@@ -3,7 +3,7 @@
     "python.analysis.typeCheckingMode": "standard",
 
     "search.exclude": {
-        "**/repos": true,
+        "**/downloads/": true,
     },
 
     "files.exclude": {

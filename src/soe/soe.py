@@ -1,6 +1,18 @@
 import argparse
 from pathlib import Path
 from .fuzzing_loop import fuzzing_loop
+import logging, sys
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s',
+    # Send output to a file and the console (sys.stderr is default for console)
+    handlers=[
+        logging.FileHandler("runtime.log"), 
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+
 
 def main():
     print("hello")
