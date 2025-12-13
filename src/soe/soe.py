@@ -13,7 +13,6 @@ logging.basicConfig(
     ]
 )
 
-
 def main():
     print("hello")
     parser = argparse.ArgumentParser(

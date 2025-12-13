@@ -4246,8 +4246,8 @@
     "f2py.tests.test_array_from_pyobj.Array.arr_equal": {
       "params": {
         "self": "Any",
-        "arr1": "Any",
-        "arr2": "Any"
+        "arr1": {},
+        "arr2": {"int": 0, "float": 0}
       },
       "filename": "d:\\All Python Project\\UROP\\repos\\numpy\\f2py\\tests\\test_array_from_pyobj.py",
       "lineno": 343,
