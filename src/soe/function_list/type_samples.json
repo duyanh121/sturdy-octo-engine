@@ -1,0 +1,1302 @@
+{
+  "tuple": [
+    [
+      "<_old_fpu_mode>"
+    ],
+    [
+      1
+    ],
+    [],
+    [
+      "<shape>"
+    ],
+    [
+      "<dtype>"
+    ],
+    [
+      "lambda v"
+    ],
+    [
+      "<expr>"
+    ],
+    [
+      ""
+    ],
+    [
+      "<a>"
+    ],
+    [
+      "\"\""
+    ],
+    [
+      "<str()>"
+    ],
+    [
+      "<gotnextfile>"
+    ],
+    [
+      "<block>"
+    ],
+    [
+      "entry"
+    ],
+    [
+      "variable"
+    ],
+    [
+      "<removeprefix()>"
+    ],
+    [
+      "common"
+    ],
+    [
+      null
+    ],
+    [
+      "<solve_v>"
+    ],
+    [
+      0
+    ],
+    [
+      "<index>"
+    ],
+    [
+      "<obj>"
+    ],
+    [
+      "<as_number()>"
+    ],
+    [
+      "<left_>"
+    ],
+    [
+      "<items>"
+    ],
+    [
+      "<args>"
+    ],
+    [
+      "<seqarrays>"
+    ],
+    [
+      "<fname>"
+    ],
+    [
+      "<key>"
+    ],
+    [
+      "<len()>"
+    ],
+    [
+      "<both>"
+    ],
+    [
+      "<before>"
+    ],
+    [
+      "w"
+    ],
+    [
+      "<outputs>"
+    ],
+    [
+      "<results>"
+    ],
+    [
+      "<a.min()>"
+    ],
+    [
+      "<value>"
+    ],
+    [
+      "<col_type>"
+    ],
+    [
+      "<uniform_type>"
+    ],
+    [
+      "<ttype>"
+    ],
+    [
+      "<poly1d()>"
+    ],
+    [
+      "<axes>"
+    ],
+    [
+      "<val>"
+    ],
+    [
+      "<axis>"
+    ],
+    [
+      "<arrs>"
+    ],
+    [
+      "<reps>"
+    ],
+    [
+      "<b>"
+    ],
+    [
+      "<np.asarray()>"
+    ],
+    [
+      "<fillx>"
+    ],
+    [
+      "<getdata()>"
+    ],
+    [
+      "<getmask()>"
+    ],
+    [
+      "<getattr()>"
+    ],
+    [
+      "<v2>"
+    ],
+    [
+      "<slice()>"
+    ],
+    [
+      "<operator.getitem()>"
+    ],
+    [
+      "<sh>"
+    ],
+    [
+      "<x.real.min()>"
+    ],
+    [
+      "<x.imag.min()>"
+    ],
+    [
+      "0"
+    ],
+    [
+      "k"
+    ],
+    [
+      "<ndpointer()>"
+    ],
+    [
+      "<ptr_type>"
+    ],
+    [
+      "<id()>"
+    ],
+    [
+      "."
+    ],
+    [
+      "<contract_inds>"
+    ],
+    [
+      "scaling"
+    ],
+    [
+      "<bat_inds>"
+    ],
+    [
+      "<a_keep>"
+    ],
+    [
+      "<con_inds>"
+    ],
+    [
+      "<new_shape>"
+    ],
+    [
+      "<size>"
+    ],
+    [
+      "<array()>"
+    ],
+    [
+      "<v>"
+    ],
+    [
+      "<asarray()>"
+    ],
+    [
+      "<math.prod()>"
+    ],
+    [
+      "<N2>"
+    ],
+    [
+      "<isnan()>"
+    ],
+    [
+      "<name>"
+    ],
+    [
+      2
+    ],
+    [
+      5
+    ],
+    [
+      15
+    ],
+    [
+      10
+    ],
+    [
+      9
+    ],
+    [
+      4
+    ],
+    [
+      "<res_unique_array_api>"
+    ],
+    [
+      "<res_unique>"
+    ],
+    [
+      "a"
+    ],
+    [
+      "<bins>"
+    ],
+    [
+      1000
+    ],
+    [
+      "\n"
+    ],
+    [
+      9223372043271415339
+    ],
+    [
+      "<complex()>"
+    ],
+    [
+      "gender"
+    ],
+    [
+      "A"
+    ],
+    [
+      "<np.array()>"
+    ],
+    [
+      "<ArrayLike()>"
+    ],
+    [
+      "<np.ones()>"
+    ],
+    [
+      "<int>"
+    ],
+    [
+      3
+    ],
+    [
+      "sum"
+    ]
+  ],
+  "list": [
+    [
+      "The numpy.linalg.linalg"
+    ],
+    [
+      "invalid value encountered"
+    ],
+    [
+      "-l"
+    ],
+    [
+      "<expr>"
+    ],
+    [
+      "<libname>"
+    ],
+    [],
+    [
+      "<isintent_in>"
+    ],
+    [
+      "See elsewhere."
+    ],
+    [
+      "<n>"
+    ],
+    [
+      ""
+    ],
+    [
+      "<ap>"
+    ],
+    [
+      "parameter"
+    ],
+    [
+      "<dm>"
+    ],
+    [
+      "<attr>"
+    ],
+    [
+      "<note>"
+    ],
+    [
+      "<dim_char>"
+    ],
+    [
+      "*"
+    ],
+    [
+      "1"
+    ],
+    [
+      "<nb>"
+    ],
+    [
+      "<lastname>"
+    ],
+    [
+      "<drop_names>"
+    ],
+    [
+      "<names>"
+    ],
+    [
+      "<data>"
+    ],
+    [
+      "<dtypes>"
+    ],
+    [
+      "<filename>"
+    ],
+    [
+      "{"
+    ],
+    [
+      "<condlist>"
+    ],
+    [
+      "<outputs>"
+    ],
+    [
+      0
+    ],
+    [
+      "<missing_values>"
+    ],
+    [
+      "<usecols>"
+    ],
+    [
+      "<comment>"
+    ],
+    [
+      "<str()>"
+    ],
+    [
+      1
+    ],
+    [
+      "<xedges>"
+    ],
+    [
+      "data"
+    ],
+    [
+      "<ed>"
+    ],
+    [
+      "<slice()>"
+    ],
+    [
+      "<k>"
+    ],
+    [
+      "x"
+    ],
+    [
+      "<np>"
+    ],
+    [
+      "float96"
+    ],
+    [
+      "<lineno>"
+    ],
+    [
+      "<header>"
+    ],
+    [
+      "fixed"
+    ],
+    [
+      "<tuple()>"
+    ],
+    [
+      "dtype"
+    ],
+    [
+      "<dtype>"
+    ],
+    [
+      "<operator.index()>"
+    ],
+    [
+      "<axes_a>"
+    ],
+    [
+      "<axes_b>"
+    ],
+    [
+      "bytes"
+    ],
+    [
+      "<order>"
+    ],
+    [
+      "--f2cmap"
+    ],
+    [
+      "a "
+    ],
+    [
+      "<executor.submit()>"
+    ],
+    [
+      "--freethreading-compatible"
+    ],
+    [
+      "meson"
+    ],
+    [
+      "<Path()>"
+    ],
+    [
+      5
+    ],
+    [
+      false
+    ],
+    [
+      true
+    ],
+    [
+      null
+    ],
+    [
+      2
+    ],
+    [
+      2.0
+    ],
+    [
+      1.0
+    ],
+    [
+      "<np.datetime64()>"
+    ],
+    [
+      "<np.timedelta64()>"
+    ],
+    [
+      4
+    ],
+    [
+      "apple"
+    ],
+    [
+      "caf\u00e9"
+    ],
+    [
+      "cafe"
+    ],
+    [
+      0.0
+    ],
+    [
+      "<np.array()>"
+    ],
+    [
+      3
+    ],
+    [
+      1.1
+    ],
+    [
+      "<np.arctan()>"
+    ],
+    [
+      "widget"
+    ],
+    [
+      8
+    ],
+    [
+      190
+    ],
+    [
+      7.5
+    ],
+    [
+      10
+    ],
+    [
+      0.5
+    ],
+    [
+      "<Fraction()>"
+    ],
+    [
+      "<x>"
+    ],
+    [
+      "fd"
+    ],
+    [
+      "mad"
+    ],
+    [
+      0.9999999995
+    ],
+    [
+      1.0000000001
+    ],
+    [
+      1.0001
+    ],
+    [
+      "stid"
+    ],
+    [
+      "S4"
+    ],
+    [
+      "str1"
+    ],
+    [
+      "5,6,7,\u00d5scarscar"
+    ],
+    [
+      "1,2,3"
+    ],
+    [
+      "0.9999999999999999"
+    ],
+    [
+      "<line>"
+    ],
+    [
+      "1,\"2\n\"\n"
+    ],
+    [
+      50
+    ],
+    [
+      252
+    ]
+  ],
+  "none": [
+    null
+  ],
+  "dict": [
+    {},
+    {
+      "varname": "<a>"
+    },
+    {
+      "name": "<name>"
+    },
+    {
+      "f90modulename": "<expr>"
+    },
+    {
+      "modulename": "<expr>"
+    },
+    {
+      "name": "<expr>"
+    },
+    {
+      "maxnofargs": "<expr>"
+    },
+    {
+      "commonhooks": "<expr>"
+    },
+    {
+      "<groupcounter>": "<expr>"
+    },
+    {
+      "<groupcounter>": ""
+    },
+    {
+      "attrspec": "<attrs>"
+    },
+    {
+      "<name>": "<expr>"
+    },
+    {
+      "block": "interface"
+    },
+    {
+      "block": "python module"
+    },
+    {
+      "attrspec": "<expr>"
+    },
+    {
+      "buildpath": "<buildpath>"
+    },
+    {
+      "f90modhooks": "<expr>"
+    },
+    {
+      "typespec": "integer"
+    },
+    {
+      "0": "Ro"
+    },
+    {
+      "usemask": "<usemask>"
+    },
+    {
+      "jointype": "<jointype>"
+    },
+    {
+      "empty": "<expr>"
+    },
+    {
+      "maximum": "<expr>"
+    },
+    {
+      "None": "<open>"
+    },
+    {
+      "shape": "<expr>"
+    },
+    {
+      "descr": "<dtype_to_descr()>"
+    },
+    {
+      "keepdims": "<keepdims>"
+    },
+    {
+      "<expr>": "<expr>"
+    },
+    {
+      "encoding": "<encoding>"
+    },
+    {
+      "names": "<names>"
+    },
+    {
+      "_fill_value": "<getattr()>"
+    },
+    {
+      "axis": "<axis>"
+    },
+    {
+      "<expr>": " "
+    },
+    {
+      "0": "\u2597"
+    },
+    {
+      "names": "<dtnames>"
+    },
+    {
+      "recarray": "numpy.rec.recarray"
+    },
+    {
+      "bool": "<expr>"
+    },
+    {
+      "formats": "<formats>"
+    },
+    {
+      "names": "<expr>"
+    },
+    {
+      "kind": "<expr>"
+    },
+    {
+      "dp": 8
+    },
+    {
+      "integer": "<expr>"
+    },
+    {
+      "INTEGER": "<expr>"
+    },
+    {
+      "int": "int"
+    },
+    {
+      "weights": "<np.ones()>"
+    },
+    {
+      "method": "<method>"
+    },
+    {
+      "50": "<expr>"
+    },
+    {
+      "1": "<expr>"
+    },
+    {
+      "fd": 1
+    },
+    {
+      "fd": 21
+    },
+    {
+      "1": "<func>"
+    },
+    {
+      "dtype": "<int>"
+    },
+    {
+      "delimiter": ","
+    },
+    {
+      "gender": "<np.array()>"
+    },
+    {
+      "date": "<expr>"
+    },
+    {
+      "converters": "<expr>"
+    },
+    {
+      "1:1": 0
+    },
+    {
+      "0": "<int>"
+    },
+    {
+      "names": "a, b, c"
+    },
+    {
+      "dtype": null
+    },
+    {
+      "4": "<expr>"
+    },
+    {
+      "delimiter": "<expr>"
+    },
+    {
+      "delimiter": 5
+    },
+    {
+      "missing_values": "N/A"
+    },
+    {
+      "0": "<expr>"
+    },
+    {
+      "weights": "<np.ones_like()>"
+    },
+    {
+      "<expr>": 0
+    },
+    {
+      "A": "<expr>"
+    },
+    {
+      "A": "???"
+    },
+    {
+      "astype": "<expr>"
+    },
+    {
+      "bool": "053594a9b82d656f967c54869bc6970aa0358cf94ad469c81478459c6a90eee3"
+    },
+    {
+      "bool": "509aea74d792fb931784c4b0135392c65aec64beee12b0cc167548a2c3d31e71"
+    },
+    {
+      "0": 0
+    },
+    {
+      "warning1": 1
+    },
+    {
+      "": 1
+    },
+    {
+      "a": "<typ>"
+    },
+    {
+      "a": "<getattr()>"
+    },
+    {
+      "all": "<expr>"
+    },
+    {
+      "precision": 2
+    },
+    {
+      ".": "<expr>"
+    },
+    {
+      "NEON": "ASIMD"
+    },
+    {
+      "ASIMD": "<expr>"
+    },
+    {
+      "year": 2022
+    },
+    {
+      "raise": "<expr>"
+    },
+    {
+      "add": "<expr>"
+    },
+    {
+      "__array__": "<array_impl>"
+    },
+    {
+      "base": "<base>"
+    },
+    {
+      "formats": "<expr>"
+    },
+    {
+      "typestr": "f8"
+    },
+    {
+      "data": null
+    },
+    {
+      "data": "<expr>"
+    },
+    {
+      "<npy_log10>": "<expr>"
+    },
+    {
+      "a": 3
+    },
+    {
+      "1": 1
+    },
+    {
+      "2": 2
+    },
+    {
+      "C": "c_contiguous"
+    },
+    {
+      "fill_value": "<fill_value>"
+    },
+    {
+      "fill_value": "<value>"
+    },
+    {
+      "__array_function__": "<_return_not_implemented>"
+    },
+    {
+      "<complex()>": "(inf+0j)"
+    }
+  ],
+  "str": [
+    "The current Numpy installation ({!r}) fails to pass simple sanity checks. This can be caused for example by incorrect BLAS library being linked in, or by mixing package managers (pip, conda, apt, ...). Search closed numpy issues for similar problems.",
+    "Traceback (most recent call last):",
+    "numpy._core",
+    "numpy.core",
+    ".so",
+    ".dylib",
+    ".dll",
+    "any",
+    "",
+    "\\((.*?)\\)",
+    "void",
+    ".f2py_f2cmap",
+    "1",
+    "-1",
+    "0",
+    "*",
+    "input",
+    "in/output",
+    "F2PY_INTENT_IN",
+    "N",
+    "O",
+    "F_FUNC_US",
+    "F_FUNC",
+    "F_WRAPPEDFUNC_US",
+    "F_WRAPPEDFUNC",
+    "10",
+    "extern",
+    "static",
+    "\n#ifdef F2PY_CB_RETURNCOMPLEX\nreturn_value=\n#endif\n",
+    "return_value=",
+    "\n#ifdef F2PY_CB_RETURNCOMPLEX\n#ctype#\n#else\nvoid\n#endif\n",
+    "char",
+    "string",
+    "includes0",
+    "includes",
+    "typedefs",
+    "typedefs_generated",
+    "cppmacros",
+    "cfuncs",
+    "callbacks",
+    "f90modhooks",
+    "commonhooks",
+    "fix",
+    "UTF-8-SIG",
+    "UTF-32",
+    "UTF-16",
+    "ascii",
+    "free",
+    "program",
+    "fromsky",
+    "block data",
+    "python module",
+    "abstract interface",
+    "_BLOCK_DATA_",
+    "module",
+    "interface",
+    "unknown_interface",
+    "_BLNK_",
+    "double complex",
+    "double precision",
+    "unknown__user__routines",
+    "e_",
+    "_",
+    " ",
+    ",",
+    "!    -*- f90 -*-\n! Note: the context of this file is case sensitive.\n",
+    ".",
+    "Py_MOD_GIL_USED",
+    "Py_MOD_GIL_NOT_USED",
+    "meson",
+    "untitled",
+    "--fcompiler=",
+    "--f2cmap",
+    "kind",
+    "len",
+    "hidden",
+    " - ",
+    " + ",
+    " * ",
+    "`axes` should not be `None` if `s` is not `None` (Deprecated in NumPy 2.0). In a future version of NumPy, this will raise an error and `s[i]` will correspond to the size along the transformed axis specified by `axes[i]`. To retain current behaviour, pass a sequence [0, ..., k-1] to `axes` for an array of dimension k.",
+    "Passing an array containing `None` values to `s` is deprecated in NumPy 2.0 and will raise an error in a future version of NumPy. To use the default behaviour of the corresponding 1-D transform, pass the value matching the default for its `n` parameter. To use the default behaviour for every axis, the `s` argument can be omitted.",
+    "The number of arrays does not match the number of names",
+    "The dtypes argument must be None, a dtype, or a list.",
+    "r1 and r2 contain common names, r1postfix and r2postfix ",
+    "The axis argument to unique is not supported for dtype {dt}",
+    "we only support format version (1,0), (2,0), and (3,0), not %s",
+    "the magic string is not correct; expected %r, got %r",
+    "Cannot parse header: {!r}",
+    "Header is not a dictionary: {!r}",
+    "Header does not contain the correct keys: {!r}",
+    "shape is not valid: {!r}",
+    "fortran_order is not a valid bool: {!r}",
+    "descr is not a valid dtype descriptor: {!r}",
+    "Array can't be memory-mapped: Python objects in dtype.",
+    "F",
+    "C",
+    "r+",
+    "EOF: reading %s, expected %d bytes got %d",
+    "When used as a decorator, ",
+    "only accepts keyword arguments."
+  ],
+  "int": [
+    1,
+    0,
+    -1,
+    15,
+    2,
+    8,
+    4,
+    -2,
+    -3,
+    65536,
+    100,
+    113,
+    121,
+    125,
+    201,
+    202,
+    3,
+    10,
+    1024,
+    54,
+    12,
+    45,
+    21,
+    5,
+    -6,
+    512,
+    16,
+    102,
+    400,
+    60000,
+    110000,
+    -10,
+    255,
+    20,
+    70,
+    -9999,
+    9,
+    99,
+    999,
+    -99,
+    17,
+    30,
+    64,
+    25,
+    -210306068529402873148182252916320501760,
+    287608843259529770491897792873167516365,
+    135275564607035429730177404003164635391,
+    277778083536782149546677086420637664879,
+    32,
+    50000000000,
+    20000000,
+    1234567890,
+    1000,
+    42,
+    1000000,
+    100000,
+    37,
+    192,
+    500,
+    10000,
+    36,
+    -4,
+    -5,
+    26,
+    27,
+    6,
+    -14,
+    11,
+    40,
+    50,
+    60,
+    80,
+    -1389,
+    1321,
+    5000,
+    7,
+    -7,
+    123,
+    -1000,
+    34242324,
+    41247212,
+    -100,
+    2047,
+    14,
+    -1234,
+    12345,
+    13,
+    23,
+    34,
+    106,
+    1002,
+    9223372036854775,
+    128,
+    -2000,
+    4607998452777363968
+  ],
+  "bool": [
+    true,
+    false
+  ],
+  "set": [
+    [
+      "callstatement"
+    ],
+    [],
+    [
+      ""
+    ],
+    [
+      "full_version"
+    ],
+    [
+      "<np>"
+    ],
+    [
+      "NBitBase"
+    ],
+    [
+      "xerbla"
+    ],
+    [
+      "1"
+    ],
+    [
+      "size"
+    ],
+    [
+      "length"
+    ],
+    [
+      "unit"
+    ],
+    [
+      "coerce"
+    ],
+    [
+      "<expr>"
+    ],
+    [
+      "?"
+    ]
+  ],
+  "bytes": [
+    "",
+    "PK\u0003\u0004",
+    "PK\u0005\u0006",
+    "fffe68042000690420006a04",
+    "5,6,7,\u00d5scarscar\r\n15,2,3,hello\r\n20,2,3,\u00d5scar\r\n",
+    "\u03d6",
+    "1, 2, 3\n1, , 5\n0, 6, \n",
+    "f6fcf6",
+    "norm1,norm2,norm3\n",
+    " 1,2,3,4,,5 % test",
+    "86f0d418e181093825dd",
+    "8255699eff972b5766a5",
+    "cnumpy\ndtype\np0\n(S'M8'\np1\nI0\nI1\ntp2\nRp3\n(I4\nS'<'\np4\nNNNI-1\nI-1\nI0\n((dp5\n(S'D'\np6\nI7\nI1\nI1\ntp7\ntp8\ntp9\nb.",
+    "cnumpy\ndtype\np0\n(S'M8'\np1\nI0\nI1\ntp2\nRp3\n(I4\nS'<'\np4\nNNNI-1\nI-1\nI0\n((dp5\n(S'W'\np6\nI1\nI1\nI1\ntp7\ntp8\ntp9\nb.",
+    "cnumpy\ndtype\np0\n(S'M8'\np1\nI0\nI1\ntp2\nRp3\n(I4\nS'>'\np4\nNNNI-1\nI-1\nI0\n((dp5\n(S'us'\np6\nI1\nI1\nI1\ntp7\ntp8\ntp9\nb.",
+    "81c181c181c1",
+    "80059590000000000000008c136e756d70792e5f636f72652e6e756d65726963948c0b5f66726f6d62756666657294939428961800000000000000000102030405060708090a0b0c0d0e0f1011121314151617948c056e756d7079948c0564747970659493948c02753194898887945294284b038c017c944e4e4e4affffffff4affffffff4b007494624b034b044b0287948c014394749452942e",
+    "80059590000000000000008c136e756d70792e5f636f72652e6e756d65726963948c0b5f66726f6d62756666657294939428961800000000000000000102030405060708090a0b0c0d0e0f1011121314151617948c056e756d7079948c0564747970659493948c02753194898887945294284b038c017c944e4e4e4affffffff4affffffff4b007494624b034b044b0287948c014694749452942e",
+    "800595a5000000000000008c166e756d70792e5f636f72652e6d756c74696172726179948c0c5f7265636f6e7374727563749493948c056e756d7079948c076e6461727261799493944b0085944301629487945294284b014b044b034b02879468038c0564747970659493948c02753194898887945294284b038c017c944e4e4e4affffffff4affffffff4b0074946289431800010809101102030a0b121304050c0d141506070e0f1617947494622e",
+    "80059591000000000000008c166e756d70792e5f636f72652e6d756c74696172726179948c0c5f7265636f6e7374727563749493948c056e756d7079948c076e6461727261799493944b0085944301629487945294284b014b034b02869468038c0564747970659493948c02753194898887945294284b038c017c944e4e4e4affffffff4affffffff4b00749462894306000104050809947494622e",
+    "8002636e756d70792e636f72652e5f696e7465726e616c0a5f7265636f6e7374727563740a7101636e756d70790a6e6461727261790a71024b008555016287527103284b0485636e756d70790a64747970650a7104550269314b004b01875271052855017c4e4e4affffffff4affffffff74628955040102030474622e",
+    "8002636e756d70792e636f72652e5f696e7465726e616c0a5f7265636f6e7374727563740a7101636e756d70790a6e6461727261790a71024b008555016287527103284b0485636e756d70790a64747970650a7104550266344b004b01875271052855013c4e4e4affffffff4affffffff74628955100000803f00000040000040400000804074622e",
+    "8002636e756d70792e636f72652e5f696e7465726e616c0a5f7265636f6e7374727563740a7101636e756d70790a6e6461727261790a71024b008555016287527103284b0285636e756d70790a64747970650a710455024f384b004b01875271052855017c4e4e4affffffff4affffffff7462895d7106287d71075501614b01737d71085501624b02736574622e",
+    "8002636e756d70792e636f72652e5f696e7465726e616c0a5f7265636f6e7374727563740a7101636e756d70790a6e6461727261790a71024b008555016287527103284b014b0485636e756d70790a64747970650a7104550269314b004b0187527105284b0155017c4e4e4affffffff4affffffff74628955040102030474622e",
+    "8002636e756d70792e636f72652e5f696e7465726e616c0a5f7265636f6e7374727563740a7101636e756d70790a6e6461727261790a71024b008555016287527103284b014b0485636e756d70790a64747970650a7104550266344b004b0187527105284b0155013c4e4e4affffffff4affffffff74628955100000803f00000040000040400000804074622e",
+    "8002636e756d70792e636f72652e5f696e7465726e616c0a5f7265636f6e7374727563740a7101636e756d70790a6e6461727261790a71024b008555016287527103284b014b0285636e756d70790a64747970650a710455024f384b004b0187527105284b0155017c4e4e4affffffff4affffffff7462895d7106287d71075501614b01737d71085501624b02736574622e",
+    "cnumpy.core.multiarray\n_reconstruct\np0\n(cnumpy\nndarray\np1\n(I0\ntp2\nS'b'\np3\ntp4\nRp5\n(I1\n(I1\ntp6\ncnumpy\ndtype\np7\n(S'V6'\np8\nI0\nI1\ntp9\nRp10\n(I3\nS'|'\np11\nN(S'a'\np12\ng3\ntp13\n(dp14\ng12\n(g7\n(S'V4'\np15\nI0\nI1\ntp16\nRp17\n(I3\nS'|'\np18\n(g7\n(S'i1'\np19\nI0\nI1\ntp20\nRp21\n(I3\nS'|'\np22\nNNNI-1\nI-1\nI0\ntp23\nb(I2\nI2\ntp24\ntp25\nNNI4\nI1\nI0\ntp26\nbI0\ntp27\nsg3\n(g7\n(S'V2'\np28\nI0\nI1\ntp29\nRp30\n(I3\nS'|'\np31\n(g21\nI2\ntp32\nNNI2\nI1\nI0\ntp33\nbI4\ntp34\nsI6\nI1\nI0\ntp35\nbI00\nS'\\x01\\x01\\x01\\x01\\x01\\x02'\np36\ntp37\nb.",
+    "1,0,-2.3,0",
+    "a   ",
+    "hello1",
+    "hello2",
+    "black",
+    "white",
+    "other",
+    "0123456789abcdef",
+    "cnumpy.core.multiarray\n_reconstruct\np0\n(cnumpy\nndarray\np1\n(I0\ntp2\nS'b'\np3\ntp4\nRp5\n(I1\n(I1\ntp6\ncnumpy\ndtype\np7\n(S'i1'\np8\nI0\nI1\ntp9\nRp10\n(I3\nS'|'\np11\nNNNI-1\nI-1\nI0\ntp12\nbI00\nS'\\x81'\np13\ntp14\nb.",
+    "ffffffff",
+    "80049528000000000000008c1c6e756d70792e636f72652e5f6d756c746961727261795f756d617468948c036164649493942e",
+    "def",
+    "cnumpy.core\n_ufunc_reconstruct\np0\n(S'numpy._core.umath'\np1\nS'cos'\np2\ntp3\nRp4\n."
+  ],
+  "float": [
+    0.0,
+    1e-15,
+    100000000.0,
+    7.0,
+    1e-05,
+    2.0,
+    96.0,
+    1.0,
+    13.0,
+    0.3,
+    13.5,
+    0.5,
+    0.999,
+    1.5,
+    1e+200,
+    -3.4,
+    11.615898132184,
+    1e-08,
+    10.0,
+    -10.0,
+    -1.1,
+    3.0,
+    4.0,
+    5.0,
+    5e-17,
+    0.0969992,
+    1.2,
+    1e-09,
+    2.9242148399353027,
+    0.0025,
+    77616.90831318991,
+    0.61879477158568,
+    5498.42354,
+    1234.22,
+    1234.23,
+    1.1,
+    2.2,
+    627.34,
+    8.339999,
+    999090.54,
+    0.001,
+    1000000.0,
+    1000000000000.0,
+    -3.1415,
+    -10000.0,
+    20.3,
+    1.234,
+    100.0,
+    1e+150,
+    -1.0,
+    777.68760986,
+    -12.5,
+    2.5,
+    -0.0,
+    0.1,
+    0.6,
+    -0.5,
+    4.76,
+    0.00458849,
+    0.605202,
+    123.0,
+    3e-308,
+    1.78e-10,
+    2.16e-10,
+    0.6931471805599453,
+    120000.0,
+    10000000000.0,
+    -10000000000.0,
+    20.0,
+    40.0,
+    0.0001
+  ],
+  "set[types.ModuleType]": [
+    "set[types.ModuleType]"
+  ],
+  "set[Callable[..., Any]]": [
+    "set[Callable[..., Any]]"
+  ],
+  "dict[Callable[..., Any], str]": [
+    "dict[Callable[..., Any], str]"
+  ],
+  "list[tuple]": [
+    "list[tuple]"
+  ],
+  "dict[str, str]": [
+    "dict[str, str]"
+  ],
+  "str | None": [
+    "str | None"
+  ],
+  "npt.NDArray[np.void]": [
+    "npt.NDArray[np.void]"
+  ],
+  "tuple[str | Any, ...]": [
+    "tuple[str | Any, ...]"
+  ],
+  "tuple[str, ...]": [
+    "tuple[str, ...]"
+  ],
+  "np.dtype[np.void]": [
+    "np.dtype[np.void]"
+  ],
+  "complex": [
+    {
+      "__type__": "complex",
+      "real": 0.0,
+      "imag": 1.0
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "tuple": [
+    [
+      "<_old_fpu_mode>"
+    ],
+    [
+      1
+    ],
+    [],
+    [
+      "<shape>"
+    ],
+    [
+      "<dtype>"
+    ]
+  ],
+  "list": [
+    [
+      "The numpy.linalg.linalg"
+    ],
+    [
+      "invalid value encountered"
+    ],
+    [
+      "-l"
+    ],
+    [
+      "<expr>"
+    ],
+    [
+      "<libname>"
+    ]
+  ],
+  "none": [
+    null
+  ],
+  "dict": [
+    {},
+    {
+      "varname": "<a>"
+    },
+    {
+      "name": "<name>"
+    },
+    {
+      "f90modulename": "<expr>"
+    },
+    {
+      "modulename": "<expr>"
+    }
+  ],
+  "str": [
+    "The current Numpy installation ({!r}) fails to pass simple sanity checks. This can be caused for example by incorrect BLAS library being linked in, or by mixing package managers (pip, conda, apt, ...). Search closed numpy issues for similar problems.",
+    "Traceback (most recent call last):",
+    "numpy._core",
+    "numpy.core",
+    ".so"
+  ],
+  "int": [
+    1,
+    0,
+    -1,
+    15,
+    2
+  ],
+  "bool": [
+    true,
+    false
+  ],
+  "set": [
+    [
+      "callstatement"
+    ],
+    [],
+    [
+      ""
+    ],
+    [
+      "full_version"
+    ],
+    [
+      "<np>"
+    ]
+  ],
+  "bytes": [
+    

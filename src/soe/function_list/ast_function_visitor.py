@@ -1,7 +1,53 @@
 # ast_function_visitor.py
+from __future__ import annotations
 import ast
 from typing import Dict, Optional
-from soe.function_list.function_info import FunctionInfo
+from .function_info import FunctionInfo
+
+
+def annotation_to_str(node: ast.AST | None) -> str:
+    """Convert a type annotation AST node to a readable string."""
+    if node is None:
+        return "Any"
+
+    # Python 3.10+: int | None
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.BitOr):
+        return f"{annotation_to_str(node.left)} | {annotation_to_str(node.right)}"
+
+    if isinstance(node, ast.Name):
+        return node.id
+
+    if isinstance(node, ast.Attribute):
+        # e.g. typing.List, np.ndarray
+        return f"{annotation_to_str(node.value)}.{node.attr}"
+
+    if isinstance(node, ast.Subscript):
+        # e.g. list[int], Dict[str, int]
+        base = annotation_to_str(node.value)
+        # slice shapes differ across versions; normalize
+        sub = node.slice
+        if isinstance(sub, ast.Tuple):
+            inner = ", ".join(annotation_to_str(elt) for elt in sub.elts)
+        else:
+            inner = annotation_to_str(sub)
+        return f"{base}[{inner}]"
+
+    if isinstance(node, ast.Constant):
+        # e.g. "MyClass" forward-ref, or None
+        if node.value is None:
+            return "None"
+        if isinstance(node.value, str):
+            return node.value
+        return repr(node.value)
+
+    if isinstance(node, ast.Tuple):
+        return ", ".join(annotation_to_str(elt) for elt in node.elts)
+
+    # fallback
+    try:
+        return ast.unparse(node)  # py3.9+
+    except Exception:
+        return "Any"
 
 
 class FunctionCollector(ast.NodeVisitor):
@@ -11,52 +57,19 @@ class FunctionCollector(ast.NodeVisitor):
 
         self.current_class: Optional[str] = None
         self.current_function_qualname: Optional[str] = None
-
-        self.functions: Dict[str, FunctionInfo] = {}
-
-    # --- Helpers ---
+        self.functions: dict[str, FunctionInfo] = {}
 
     def _make_qualname(self, func_name: str) -> str:
         if self.current_class:
             return f"{self.module_name}.{self.current_class}.{func_name}"
-        else:
-            return f"{self.module_name}.{func_name}"
+        return f"{self.module_name}.{func_name}"
 
-    def _annotation_to_str(self, ann: Optional[ast.expr]) -> str:
-        """Convert a parameter annotation AST node to a string."""
-        if ann is None:
-            return "Any"
-        # Python 3.9+ has ast.unparse
-        try:
-            return ast.unparse(ann)
-        except AttributeError:
-            # Fallback: handle a few simple cases if you're on <3.9
-            if isinstance(ann, ast.Name):
-                return ann.id
-            elif isinstance(ann, ast.Attribute):
-                parts = []
-                cur = ann
-                while isinstance(cur, ast.Attribute):
-                    parts.append(cur.attr)
-                    cur = cur.value
-                if isinstance(cur, ast.Name):
-                    parts.append(cur.id)
-                parts.reverse()
-                return ".".join(parts)
-            else:
-                return "Any"
-
-    def _extract_call_name(self, node: ast.expr) -> Optional[str]:
-        """
-        Get a *short* name from a Call node's .func.
-        We don't fully resolve imports here, just grab a reasonable string.
-        """
+    def _extract_call_name(self, node: ast.expr) -> str | None:
         if isinstance(node, ast.Name):
-            return node.id                       # foo(...)
+            return node.id
         elif isinstance(node, ast.Attribute):
-            # e.g. np.sin -> "np.sin", self.foo -> "self.foo"
             parts = []
-            cur = node
+            cur: ast.AST = node
             while isinstance(cur, ast.Attribute):
                 parts.append(cur.attr)
                 cur = cur.value
@@ -64,89 +77,60 @@ class FunctionCollector(ast.NodeVisitor):
                 parts.append(cur.id)
             parts.reverse()
             return ".".join(parts)
-        else:
-            return None
-
-    # --- Visitors ---
+        return None
 
     def visit_ClassDef(self, node: ast.ClassDef):
-        prev_class = self.current_class
+        prev = self.current_class
         self.current_class = node.name
         self.generic_visit(node)
-        self.current_class = prev_class
+        self.current_class = prev
 
-    def _collect_params(self, node: ast.FunctionDef | ast.AsyncFunctionDef) -> Dict[str, str]:
-        """
-        Build a mapping {param_name: type_string} from function arguments.
-        Handles posonlyargs, args, kwonlyargs, *args, **kwargs.
-        """
+    def _collect_params_with_types(self, node: ast.arguments) -> Dict[str, str]:
         params: Dict[str, str] = {}
 
-        def handle_arg(arg: ast.arg):
-            params[arg.arg] = self._annotation_to_str(arg.annotation)
+        # positional args
+        for a in node.args:
+            params[a.arg] = annotation_to_str(a.annotation)
 
-        # posonlyargs (Python 3.8+)
-        for a in getattr(node.args, "posonlyargs", []):
-            handle_arg(a)
+        # vararg
+        if node.vararg:
+            params["*" + node.vararg.arg] = annotation_to_str(node.vararg.annotation)
 
-        # normal args
-        for a in node.args.args:
-            handle_arg(a)
+        # kwonly
+        for a in node.kwonlyargs:
+            params[a.arg] = annotation_to_str(a.annotation)
 
-        # keyword-only args
-        for a in node.args.kwonlyargs:
-            handle_arg(a)
-
-        # *args / **kwargs
-        if node.args.vararg:
-            name = "*" + node.args.vararg.arg
-            params[name] = self._annotation_to_str(node.args.vararg.annotation)
-        if node.args.kwarg:
-            name = "**" + node.args.kwarg.arg
-            params[name] = self._annotation_to_str(node.args.kwarg.annotation)
+        # kwarg
+        if node.kwarg:
+            params["**" + node.kwarg.arg] = annotation_to_str(node.kwarg.annotation)
 
         return params
 
-    def visit_FunctionDef(self, node: ast.FunctionDef):
-        qualname = self._make_qualname(node.name)
-        params = self._collect_params(node)
+    def _handle_function(self, node: ast.AST, name: str, args: ast.arguments, lineno: int):
+        qualname = self._make_qualname(name)
+        params = self._collect_params_with_types(args)
 
         info = FunctionInfo(
             qualname=qualname,
             module=self.module_name,
             cls=self.current_class,
-            name=node.name,
+            name=name,
             params=params,
             filename=self.filename,
-            lineno=node.lineno,
+            lineno=lineno,
         )
         self.functions[qualname] = info
 
-        prev_func = self.current_function_qualname
+        prev = self.current_function_qualname
         self.current_function_qualname = qualname
         self.generic_visit(node)
-        self.current_function_qualname = prev_func
+        self.current_function_qualname = prev
+
+    def visit_FunctionDef(self, node: ast.FunctionDef):
+        self._handle_function(node, node.name, node.args, node.lineno)
 
     def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef):
-        # Treat async functions the same way, reusing _collect_params
-        qualname = self._make_qualname(node.name)
-        params = self._collect_params(node)
-
-        info = FunctionInfo(
-            qualname=qualname,
-            module=self.module_name,
-            cls=self.current_class,
-            name=node.name,
-            params=params,
-            filename=self.filename,
-            lineno=node.lineno,
-        )
-        self.functions[qualname] = info
-
-        prev_func = self.current_function_qualname
-        self.current_function_qualname = qualname
-        self.generic_visit(node)
-        self.current_function_qualname = prev_func
+        self._handle_function(node, node.name, node.args, node.lineno)
 
     def visit_Call(self, node: ast.Call):
         if self.current_function_qualname is not None:
