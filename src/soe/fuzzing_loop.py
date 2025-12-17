@@ -22,8 +22,8 @@ def fuzzing_loop(repo_path: Path):
 
     # Generate function list
     logger.info(f"Generating function list from {repo_path}...")
-    # Get function list
-    # _global.set_function_list(function_list.generate_function_list(str(repo_path)))
+    function_list.generate_function_list(str(repo_path))
+    _global.set_function_list(function_list.get_function_list())
 
 
     # Generate default parameter types
@@ -33,17 +33,18 @@ def fuzzing_loop(repo_path: Path):
         default_parameter_types[f_name] = [Any for _ in _global.get_function_list()[f_name]["params"]]
 
 
-    # Generate type samples
-    logger.info("Generating type samples...")
-    type_samples = function_list.generate_type_sample(str(repo_path))
-    _global.set_type_list(type_samples)
+    # Generate parameter types from type hints
+    logger.info("Generating parameter types from type hints...")
+    type_hint_parameter_types = {}
+    # ...
+
 
     # Generate parameter types from static analysis
     logger.info("Generating parameter types from static analysis...")
     static_analysis_parameter_types = {}
     # ...
 
-    function_parameter_types = merge_list_dicts_stable(default_parameter_types, static_analysis_parameter_types)
+    function_parameter_types = merge_list_dicts_stable(default_parameter_types, type_hint_parameter_types, static_analysis_parameter_types)
     # function_parameter_types["abc"] = [[any, any]]
 
     while True:
@@ -55,5 +56,5 @@ def fuzzing_loop(repo_path: Path):
 
 
 if __name__ == "__main__":
-    repo_path = Path("downloads/numpy/numpy") # Path of repo in downloads folder
+    repo_path = Path("repos/numpy")
     fuzzing_loop(repo_path)
