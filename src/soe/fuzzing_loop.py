@@ -1,10 +1,13 @@
 from pathlib import Path
 from typing import Any
 import logging
+
+from dotenv import get_key
 from ._helpers import merge_list_dicts_stable
 from .fuzzer import fuzz
 from soe.function_list import function_list
 import soe._global as _global
+import soe.run as run
 
 logger = logging.getLogger('fuzzing_loop')
 
@@ -22,8 +25,7 @@ def fuzzing_loop(repo_path: Path):
 
     # Generate function list
     logger.info(f"Generating function list from {repo_path}...")
-    function_list.generate_function_list(str(repo_path))
-    _global.set_function_list(function_list.get_function_list())
+    _global.set_function_list(function_list.generate_function_list(str(repo_path)))
 
 
     # Generate default parameter types
@@ -48,13 +50,16 @@ def fuzzing_loop(repo_path: Path):
     # function_parameter_types["abc"] = [[any, any]]
 
     while True:
-        for f_name in _global.get_function_list():
-            fuzz(f_name)
-
+        func_list = _global.get_function_list()
+        for f_name in func_list:
+            params = func_list[f_name].get("params", {}).keys()
+            fuzz(f_name, params)
+            
         break
     
 
 
 if __name__ == "__main__":
-    repo_path = Path("repos/numpy")
+    repo_path = Path("downloads/numpy")
     fuzzing_loop(repo_path)
+    
