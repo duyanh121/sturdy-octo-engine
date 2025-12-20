@@ -8,12 +8,12 @@ def main():
     )
     parser.add_argument(
         "-i", "--install",
-        help="Project to download"
+        help="specify project to download"
     )
     parser.add_argument(
         "-a", "--all",
         action="store_true",
-        help="Project to download"
+        help="download all projects"
     )
 
     args = parser.parse_args()

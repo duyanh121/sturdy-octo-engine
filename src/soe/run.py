@@ -7,9 +7,10 @@ import builtins
 import json
 from soe._global import get_function_list, get_type_list, set_function_list, set_type_list
 from collections import defaultdict
+import logging
 
 
-
+logger = logging.getLogger('run')
 type_list = get_type_list()
 
 
