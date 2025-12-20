@@ -9,7 +9,7 @@ from soe._global import get_function_list, get_type_list, set_function_list, set
 from collections import defaultdict
 
 
-function_list = get_function_list()
+
 type_list = get_type_list()
 
 
@@ -84,15 +84,6 @@ def _add_type_sample(val):
     seen.add(fp)
 
 
-def _inc_param_type(func_name: str, param_name: str, val):
-    k = type_key(val)
-    params = function_list[func_name].setdefault("params", {})
-    param_types = params.setdefault(param_name, {})
-    param_types[k] = param_types.get(k, 0) + 1
-
-
-
-
 def resolve_by_dotted_name(dotted: str):
     # dotted like "numpy.ma.extras.intersect1d"
     mod_path, func_name = dotted.rsplit(".", 1)
@@ -139,14 +130,14 @@ def dump_type_list_to_json(type_list, path="type_list.json"):
         )
 
 
-def run(f_name, params=[]):
+def run(f_name, params=[]) -> dict:
     '''
     Run function with given parameters and get type samples
 
     :param f_name: function name from function list
     :param params: parameters to run with
 
-    :return: run result
+    :return: type list
     '''
 
 
@@ -171,7 +162,7 @@ def run(f_name, params=[]):
             if is_target_entry or is_child_of_tracked:
                 tracked_frames.add(frame)
                 locals_seen_keys[id(frame)] = set(frame.f_locals.keys())
-
+                function_list = get_function_list()
                 # Only update function_list for functions we care about
                 if callee_name in function_list:
                     # Record params with inspect signature binding
@@ -195,7 +186,6 @@ def run(f_name, params=[]):
 
                         # Update counters + samples
                         for p, v in argmap.items():
-                            _inc_param_type(callee_name, p, v)
                             _add_type_sample(v)
 
                     except Exception:
@@ -238,15 +228,9 @@ def run(f_name, params=[]):
     old_trace = sys.gettrace()
     sys.settrace(tracer)
     try:
-        return target_fn(*params)
+        target_fn(*params)
+        dump_type_list_to_json(type_list)
+        print(type_list)
+        return type_list
     finally:
         sys.settrace(old_trace)
-
-if __name__ == "__main__":
-    for f_name in function_list:
-        params = function_list[f_name].get("params", {}).keys()
-        try:
-            run(f_name, params)
-        except Exception as e:
-            print(f"Error running {f_name}: {e}")
-        dump_type_list_to_json(type_list)

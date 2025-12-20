@@ -10,7 +10,7 @@ logging.basicConfig(
     format='[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s',
     # Send output to a file and the console (sys.stderr is default for console)
     handlers=[
-        logging.FileHandler("result/runtime.log"), 
+        logging.FileHandler("runtime.log"), 
         logging.StreamHandler(sys.stdout)
     ]
 )

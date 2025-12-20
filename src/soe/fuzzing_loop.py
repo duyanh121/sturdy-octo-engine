@@ -53,8 +53,14 @@ def fuzzing_loop(repo_path: Path):
         func_list = _global.get_function_list()
         for f_name in func_list:
             params = func_list[f_name].get("params", {}).keys()
-            fuzz(f_name, params)
-            
+            try:
+                result = fuzz(f_name, params)
+            except Exception as e:
+                print(f"Error running {f_name}: {e}")
+            else:
+                if result is not None:
+                    _global.set_type_list(result)
+                    
         break
     
 
