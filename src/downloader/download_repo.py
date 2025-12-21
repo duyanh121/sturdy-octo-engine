@@ -1,6 +1,6 @@
 import git
 import os
-import json 
+import json
 from pathlib import Path
 import shutil
 import argparse
@@ -12,7 +12,7 @@ logger = logging.getLogger('download_repo')
 
 REPOS_DIR = Path(__file__).parent / "repos"
 
-#Run python download_repo.py --project luigi
+# Run python download_repo.py --project luigi
 # Git URL and commit ID for each project
 with open(REPOS_DIR / "typebugs_repo.json", "r") as f:
     typebugs_repo = json.load(f)
@@ -24,10 +24,11 @@ with open(REPOS_DIR / "excepy_repo.json", "r") as f:
 # Directory to clone repositories into
 DOWNLOADS_DIR = Path("downloads")
 
+
 def clone_and_checkout(project, info):
     repo_url = info['git_url']
     commit_id = info['commit_id']
-    
+
     # repository name and directory
     repo_name = repo_url.split("/")[-1].replace(".git", "")
     repo_dir = DOWNLOADS_DIR / repo_name
@@ -39,8 +40,7 @@ def clone_and_checkout(project, info):
     else:
         logger.info(f"Repository {repo_name} already exists. Skipping clone.")
         repo = git.Repo(repo_dir)
-    
-    
+
     # Copy the repository to the project name
     new_repo_dir = DOWNLOADS_DIR / project
     if not os.path.exists(new_repo_dir):
@@ -54,6 +54,7 @@ def clone_and_checkout(project, info):
     repo = git.Repo(new_repo_dir)
     repo.git.checkout(commit_id, force=True)
 
+
 def download_repo(project: str):
     if project in typebugs_repo:
         clone_and_checkout(project, typebugs_repo[project])
@@ -63,6 +64,7 @@ def download_repo(project: str):
         clone_and_checkout(project, excepy_repo[project])
     else:
         logger.info(f"Project {project} not found in any repository list.")
+
 
 def download_all():
     logger.info("Downloading all projects...")
@@ -83,6 +85,7 @@ def download_all():
         if target and target not in project:
             continue
         clone_and_checkout(project, info)
+
 
 def list_projects():
     print("Available projects to download:")

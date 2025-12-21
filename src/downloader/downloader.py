@@ -1,8 +1,10 @@
 import argparse
 from .download_repo import download_repo, download_all, list_projects
-import logging, sys
+import logging
+import sys
 
 logger = logging.getLogger('downloader')
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -57,6 +59,15 @@ def downloader(
         no_log: bool = False
     ):
     init_logger(no_log=no_log)
+
+    import git as git
+    try:
+        assert git is not None
+    except AssertionError:
+        logger.error("Dependencies for downloader are not installed.")
+        logger.error("Please run 'pip install -e \".[downloader]\" to install the required dependencies.")
+        return
+
     if all:
         download_all()
     elif install:

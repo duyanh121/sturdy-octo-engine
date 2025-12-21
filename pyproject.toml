@@ -12,8 +12,18 @@ authors = [
     { name = "Nguyen Vu Nhat Minh" },
 ]
 readme = "README.md"
-requires-python = ">=3.8"
-dependencies = ["GitPython>=3.1.45,<4.0.0"]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+downloader = [
+    "GitPython>=3.1.45"
+]
+test = [
+    "flake8>=7.0.0",
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
 
 [project.scripts]
 soe = "soe.soe:main"
