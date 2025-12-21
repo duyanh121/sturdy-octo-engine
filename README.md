@@ -3,7 +3,7 @@
 ## Installation
 
 ```batch
-pip install -e .
+pip install -e ".[downloader]"
 ```
 
 ## Commands
