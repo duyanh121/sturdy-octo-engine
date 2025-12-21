@@ -1,8 +1,10 @@
 import argparse
 from .download_repo import download_repo, download_all, list_projects
-import logging, sys
+import logging
+import sys
 
 logger = logging.getLogger('downloader')
+
 
 def main():
     parser = argparse.ArgumentParser(
