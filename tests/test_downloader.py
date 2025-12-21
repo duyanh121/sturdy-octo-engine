@@ -1,11 +1,11 @@
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from downloader import downloader
 
 def test_main_function_exists():
     """Test that main function exists"""
-    from downloader.downloader import downloader
-    assert callable(downloader)
+    assert callable(downloader.downloader)
 
 def test_import():
     """Test that the module can be imported"""
