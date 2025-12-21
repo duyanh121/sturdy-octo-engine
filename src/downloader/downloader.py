@@ -1,5 +1,8 @@
 import argparse
 from .download_repo import download_repo, download_all, list_projects
+import logging, sys
+
+logger = logging.getLogger('downloader')
 
 def main():
     parser = argparse.ArgumentParser(
@@ -15,16 +18,53 @@ def main():
         action="store_true",
         help="download all projects"
     )
+    parser.add_argument(
+        "--no-log",
+        action="store_true",
+        help="disable log output",
+    )
 
     args = parser.parse_args()
-    if args.all:
-        print("Downloading all projects...")
+    downloader(
+        install=args.install if args.install else "",
+        all=args.all,
+        no_log=args.no_log
+    )
+
+
+def init_logger(level=logging.INFO, no_log=False) -> None:
+    if no_log:
+        logging.basicConfig(
+            level=level,
+            format='[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s',
+            handlers=[logging.NullHandler()]
+        )
+        return
+
+    logging.basicConfig(
+        level=level,
+        format='[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s',
+        handlers=[
+            logging.FileHandler("runtime.log", mode="w"), 
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
+
+
+def downloader(
+        install: str = "",
+        all: bool = False,
+        no_log: bool = False
+    ):
+    init_logger(no_log=no_log)
+    if all:
         download_all()
-    elif args.install:
-        download_repo(args.install)
+    elif install:
+        download_repo(install)
     else:
-        print("Available projects:")
         list_projects()
+
+    logger.info("Exiting downloader")
 
 
 if __name__ == "__main__":

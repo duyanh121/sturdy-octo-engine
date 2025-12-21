@@ -4,6 +4,11 @@ import json
 from pathlib import Path
 import shutil
 import argparse
+import logging
+
+
+logger = logging.getLogger('download_repo')
+
 
 REPOS_DIR = Path(__file__).parent / "repos"
 
@@ -29,23 +34,23 @@ def clone_and_checkout(project, info):
 
     # Clone the repository if it doesn't exist
     if not os.path.exists(repo_dir):
-        print(f"Cloning {repo_name}...")
+        logger.info(f"Cloning {repo_name}...")
         repo = git.Repo.clone_from(repo_url, repo_dir)
     else:
-        print(f"Repository {repo_name} already exists. Skipping clone.")
+        logger.info(f"Repository {repo_name} already exists. Skipping clone.")
         repo = git.Repo(repo_dir)
     
     
     # Copy the repository to the project name
     new_repo_dir = DOWNLOADS_DIR / project
     if not os.path.exists(new_repo_dir):
-        print(f"Copying {repo_name} to {project}...")
+        logger.info(f"Copying {repo_name} to {project}...")
         shutil.copytree(repo_dir, new_repo_dir)
     else:
-        print(f"Project {project} already exists. Skipping copy.")
+        logger.info(f"Project {project} already exists. Skipping copy.")
 
     # Checkout the commit
-    print(f"Checking out commit {commit_id}...")
+    logger.info(f"Checking out commit {commit_id}...")
     repo = git.Repo(new_repo_dir)
     repo.git.checkout(commit_id, force=True)
 
@@ -57,9 +62,10 @@ def download_repo(project: str):
     elif project in excepy_repo:
         clone_and_checkout(project, excepy_repo[project])
     else:
-        print(f"Project {project} not found in any repository list.")
+        logger.info(f"Project {project} not found in any repository list.")
 
 def download_all():
+    logger.info("Downloading all projects...")
     ap = argparse.ArgumentParser()
     ap.add_argument("--project", type=str, default=None)
     args = ap.parse_args()
@@ -81,11 +87,11 @@ def download_all():
 def list_projects():
     print("Available projects to download:")
     for project in typebugs_repo.keys():
-        print(f"- {project} (TypeBugs)")
+        print(f"{project} (TypeBugs)")
     for project in bugsinpy_repo.keys():
-        print(f"- {project} (BugsInPy)")
+        print(f"{project} (BugsInPy)")
     for project in excepy_repo.keys():
-        print(f"- {project} (ExcePy)")
+        print(f"{project} (ExcePy)")
 
 
 if __name__ == "__main__":
