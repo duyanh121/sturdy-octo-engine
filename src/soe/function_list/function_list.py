@@ -66,9 +66,9 @@ def is_public_function(finfo: FunctionInfo) -> bool:
     return True
 
 
-def generate_function_list(path: str) -> dict[str, dict]:
+def generate_function_list(path: Path) -> dict[str, dict]:
     PROJECT_ROOT = Path(__file__).resolve().parents[3]
-    root = os.path.abspath(os.path.join(PROJECT_ROOT, path))
+    root = os.path.abspath(PROJECT_ROOT / path)
     public_only = True
 
     all_funcs = collect_functions_in_repo(root)
