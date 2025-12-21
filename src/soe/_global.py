@@ -34,7 +34,7 @@ def set_function(f_name: str, f_info: dict) -> None:
     global function_list
     with _f_lock:
         logger.debug(f"Setting function {f_name} with {f_info}")
-        function_list[f_name] = f_info
+        function_list.update({f_name: f_info})
 
 
 # type_list
@@ -58,7 +58,7 @@ def set_type(t_name: str, t_info: dict) -> None:
     global type_list
     with _t_lock:
         logger.debug(f"Setting type {t_name} with {t_info}")
-        type_list[t_name] = t_info
+        type_list.update({t_name: t_info})
 
 
 if __name__ == "__main__":
