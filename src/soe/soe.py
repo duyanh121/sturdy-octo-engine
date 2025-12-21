@@ -146,6 +146,9 @@ def soe(
 
 
     if not no_save:
+        if not output_dir.exists():
+            output_dir.mkdir(parents=True, exist_ok=True)
+
         # Save global state on exit
         with open(output_dir / "function_list.pkl", "wb") as f:
             pickle.dump(_global.get_function_list(), f)
