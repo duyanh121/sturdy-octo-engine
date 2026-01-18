@@ -25,9 +25,10 @@ def get_function(f_name: str) -> dict:
         return function_list.get(f_name, {})
 
 def set_function_list(f_list: dict) -> None:
-    with _f_lock:
-        logger.debug(f"Setting function list {f_list}")
-        function_list = f_list
+        global function_list
+        with _f_lock:
+            logger.debug(f"Setting function list {f_list}")
+            function_list = f_list
 
 def set_function(f_name: str, f_info: dict) -> None:
     with _f_lock:
@@ -47,6 +48,7 @@ def get_type(t_name: str) -> dict:
         return type_list.get(t_name, {})
     
 def set_type_list(t_list: dict) -> None:
+    global type_list
     with _t_lock:
         logger.debug(f"Setting type list {t_list}")
         type_list = t_list
