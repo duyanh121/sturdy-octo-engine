@@ -13,12 +13,13 @@ def fuzz(fuzz_dir: Path) -> None:
             params = func_list[f_name].get("params", {}).keys()
             try:
                 result = run(f_name, params)
+                logger.info(result)
             except Exception as e:
-                print(f"Error running {f_name}: {e}")
+                logger.info(f"Error running {f_name}: {e}")
             else:
                 if result is not None:
                     _global.set_type_list(result)
-                    
+    
         break
     return 
 
