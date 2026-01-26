@@ -51,8 +51,8 @@ def test_function_list_generation():
 		assert "test_src_2.main.SampleClass.method_two" in function_list
 		assert function_list["test_src_2.main.SampleClass.method_one"]["is_class_method"] is True
 		assert function_list["test_src_2.main.SampleClass.method_two"]["is_class_method"] is True
-		assert function_list["test_src_2.main.SampleClass.method_one"]["parent_class"] == SampleClass
-		assert function_list["test_src_2.main.SampleClass.method_two"]["parent_class"] == SampleClass
+		assert function_list["test_src_2.main.SampleClass.method_one"]["class"] == SampleClass
+		assert function_list["test_src_2.main.SampleClass.method_two"]["class"] == SampleClass
 		assert function_list["test_src_1.main.param_func"]["is_class_method"] is False
 
 
