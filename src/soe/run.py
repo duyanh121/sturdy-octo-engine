@@ -6,9 +6,13 @@ import hashlib
 import importlib.util
 import builtins
 import json
-from soe._global import get_function_list, get_type_list, set_function_list, set_type_list
+
+from pytest import param
+from soe._global import get_function_list, get_type_list, set_type_list
+from soe._types import RunUnableToResolve, RunTimeout, RunStatus, RunResult
 from collections import defaultdict
 import logging
+
 
 
 logger = logging.getLogger('run')
@@ -95,15 +99,16 @@ def resolve_by_dotted_name(dotted: str):
     except ModuleNotFoundError:
         try:
             mod = importlib.import_module(f"numpy.{mod_path}")
-        except ModuleNotFoundError:
-            raise
+        except:
+            raise RunUnableToResolve(f"Cannot resolve module for dotted name: {dotted}")
 
     fn = getattr(mod, func_name)
     if not callable(fn):
-        raise TypeError(f"{dotted} is not callable")
+        raise RunUnableToResolve(f"{dotted} is not callable")
     return fn
 
 
+# remove
 def json_safe(obj):
     if obj is None or isinstance(obj, (int, float, str, bool)):
         return obj
@@ -122,7 +127,7 @@ def json_safe(obj):
         "repr": repr(obj)
     }
 
-
+# remove
 def dump_type_list_to_json(type_list, path="type_list.json"):
     with open(path, "w", encoding="utf-8") as f:
         json.dump(
@@ -132,21 +137,37 @@ def dump_type_list_to_json(type_list, path="type_list.json"):
         )
 
 
-def run(f_name, params=[]) -> dict:
+def f_run(f_name, params=[]) -> tuple[RunResult, dict]:
     '''
-    Run function with given parameters and get type samples
+    Wrapper for run function to match other module style
 
     :param f_name: function name from function list
     :param params: parameters to run with
 
     :return: type list
     '''
-
-
     if params is None:
         params = []
 
     target_fn = resolve_by_dotted_name(f_name)
+
+    result = run(target_fn, params)
+    result[0].f_name = f_name
+    return result
+
+
+def run(target_fn, params=[]) -> tuple[RunResult, dict]:
+    '''
+    Run function with given parameters and get type samples
+
+    :param target_fn: function
+    :param params: parameters to run with
+
+    :return: type list
+    '''
+
+    if params is None:
+        params = []
 
     # Track frames descended from this run call
     tracked_frames = set()
@@ -227,13 +248,39 @@ def run(f_name, params=[]) -> dict:
 
         return tracer
 
+
+    exception = None
+
     old_trace = sys.gettrace()
     sys.settrace(tracer)
     try:
         target_fn(*params)
-        dump_type_list_to_json(type_list)
-        print(type_list)
-        return type_list
+    except RunTimeout as e:
+        sys.settrace(old_trace)
+        exception = e
+    except Exception as e:
+        sys.settrace(old_trace)
+        exception = e
     finally:
         sys.settrace(old_trace)
+
+    status = RunStatus.SUCCESS
+    if exception is not None:
+        if isinstance(exception, RunUnableToResolve):
+            status = RunStatus.ERROR
+        elif isinstance(exception, RunTimeout):
+            status = RunStatus.TIMEOUT
+        else:
+            status = RunStatus.ERROR
+    else:
+        # TODO: merge (not replace) with global type list
+        # set_type_list(...)
+
+        pass
+
+
+    return RunResult(f=target_fn, params=params, status=status), type_list
+
+
+    
 

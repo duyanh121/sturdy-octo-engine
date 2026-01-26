@@ -77,15 +77,13 @@ def generate_function_list(path: Path) -> dict[str, dict]:
     dep_graph = build_dependency_graph(all_funcs)
 
     out = {
-        "functions": {
-            q: {
-                "params": f.params,                     # ✅ param -> {type: count}
-                "filename": f.filename,
-                "lineno": f.lineno,
-                "calls": sorted(dep_graph.get(q, set())),# ✅ list for JSON
-            }
-            for q, f in funcs.items()
+        q: {
+            "params": f.params,                     # ✅ param -> {type: count}
+            "filename": f.filename,
+            "lineno": f.lineno,
+            "calls": sorted(dep_graph.get(q, set())),# ✅ list for JSON
         }
+        for q, f in funcs.items()
     }
 
     curr_dir = os.path.dirname(os.path.abspath(__file__))
@@ -94,4 +92,4 @@ def generate_function_list(path: Path) -> dict[str, dict]:
         json.dump(out, f, indent=2)
     print("Saved to:", output_path)
 
-    return out["functions"]
+    return out

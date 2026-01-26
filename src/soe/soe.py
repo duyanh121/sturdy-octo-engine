@@ -2,11 +2,17 @@ import argparse
 from pathlib import Path
 import logging, sys
 import pickle
+from soe import fuzzer
 from soe.function_list.function_list import generate_function_list
-from soe.fuzzer import fuzz
+from soe.fuzzer import simple_fuzzer, blackbox_fuzzer
 import soe._global as _global
 
 logger = logging.getLogger('soe')
+
+fuzzer_options = {
+    "simple": simple_fuzzer,
+    "blackbox": blackbox_fuzzer
+}
 
 def main() -> None:
     parser = argparse.ArgumentParser(
@@ -18,12 +24,12 @@ def main() -> None:
         help="path of codebase"
     )
     parser.add_argument(
-        "-f", "--function-list-file",
+        "-fl", "--function-list-file",
         help="provide an existing function list file (.pkl)",
         default=""
     )
     parser.add_argument(
-        "-t", "--type-list-file",
+        "-tl", "--type-list-file",
         help="provide an existing type list file (.pkl)",
         default=""
     )
@@ -31,6 +37,16 @@ def main() -> None:
         "-o", "--output",
         help="specify output directory",
         default="output"
+    )
+    parser.add_argument(
+        "-f", "--fuzzer",
+        help="specify fuzzer",
+        default="simple"
+    )
+    parser.add_argument(
+        "-v", "--verbose",
+        action="store_true",
+        help="verbose",
     )
     parser.add_argument(
         "--no-output",
@@ -59,6 +75,8 @@ def main() -> None:
         function_list_file=Path(args.function_list_file),
         type_list_file=Path(args.type_list_file),
         output_dir=Path(args.output),
+        fuzzer=args.fuzzer,
+        verbose=args.verbose,
         no_log=args.no_log,
         no_save=args.no_save,
         no_fuzz=args.no_fuzz
@@ -89,12 +107,14 @@ def soe(
         function_list_file: Path = Path(), 
         type_list_file: Path = Path(), 
         output_dir: Path = Path("output"), 
+        fuzzer: str = "simple",
+        verbose = False,
         no_log = False,
         no_save = False,
         no_fuzz = False
     ) -> None:
     # Initialize logger
-    init_logger(no_log=no_log)
+    init_logger(level=logging.DEBUG if verbose else logging.INFO, no_log=no_log)
     logger.info(f"Starting sturdy-octo-engine on {fuzz_dir}")
 
 
@@ -140,9 +160,16 @@ def soe(
     if not no_fuzz:
         try:
             logger.info("Starting fuzzing")
+            if fuzzer not in fuzzer_options:
+                raise KeyError(f"Fuzzer '{fuzzer}' not found. ")
+            fuzz = fuzzer_options[fuzzer]
             fuzz(fuzz_dir)
+        except KeyError as e:
+            logger.critical(e)
+            raise
         except Exception as e:
             logger.critical(f"An error has occurred: {e}")
+            raise
 
 
     if not no_save:
