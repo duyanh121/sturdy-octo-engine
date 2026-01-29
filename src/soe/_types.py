@@ -1,4 +1,6 @@
 from enum import Enum
+from typing import Optional
+from collections.abc import Callable
 
 class RunUnableToResolve(Exception):
     pass
@@ -14,7 +16,7 @@ class RunStatus(Enum):
 class RunResult:
     def __init__(
             self,
-            f: function | None = None,
+            f: Optional[Callable] = None,
             f_name: str = "",
             params: list = [],
             status: RunStatus = RunStatus.SUCCESS
