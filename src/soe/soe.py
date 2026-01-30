@@ -129,6 +129,7 @@ def soe(
 
     # Initialize global state
     _global.init_global()
+    _global.set_dir_path(fuzz_dir)
     # Load existing function list if provided
     if function_list_file.is_file():
         try:

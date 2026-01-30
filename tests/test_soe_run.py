@@ -1,3 +1,4 @@
+from operator import ge
 import sys
 import os
 from pathlib import Path
@@ -27,8 +28,8 @@ def test_run():
         inner_function("test")
         
     type_list = run.run(sample_function, params=[])[1]
-    assert 'int' in type_list
-    assert 'str' in type_list
+    assert int in type_list
+    assert str in type_list
     assert 42 in type_list[int]
     assert "test" in type_list[str]
 
@@ -52,7 +53,7 @@ def test_run_2():
     
     type_list = run.run(add, params=[1, 2])[1]
     print(type_list)
-    assert 'int' in type_list
+    assert int in type_list
     assert 1 in type_list[int]
     assert 2 in type_list[int]
     assert 3 in type_list[int]
@@ -73,7 +74,7 @@ def test_run_3():
 
     type_list = run.run(use_method, params=[])[1]
     print(type_list)
-    assert 'int' in type_list
+    assert int in type_list
     assert 5 in type_list[int]
     assert 10 in type_list[int]
     assert any(obj.a == 5 for obj in type_list[SampleClass])

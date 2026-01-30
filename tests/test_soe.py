@@ -42,7 +42,7 @@ def test_function_list_generation():
 		except Exception as e:
 				assert False, f"soe.soe raised an exception: {e}"
 
-		function_list = _global.get_function_list()
+		function_list = _global.get_function_list()["functions"]
 		assert "test_src_1.main.param_func" in function_list
 		assert "test_src_1.main.param_func_2" in function_list
 		assert "test_src_1.main.nested_func" in function_list
@@ -51,9 +51,15 @@ def test_function_list_generation():
 		assert "test_src_2.main.SampleClass.method_two" in function_list
 		assert function_list["test_src_2.main.SampleClass.method_one"]["is_class_method"] is True
 		assert function_list["test_src_2.main.SampleClass.method_two"]["is_class_method"] is True
-		assert function_list["test_src_2.main.SampleClass.method_one"]["class"] == SampleClass
-		assert function_list["test_src_2.main.SampleClass.method_two"]["class"] == SampleClass
+		assert function_list["test_src_2.main.SampleClass.method_one"]["class"] == "SampleClass"
+		assert function_list["test_src_2.main.SampleClass.method_two"]["class"] == "SampleClass"
 		assert function_list["test_src_1.main.param_func"]["is_class_method"] is False
+
+		# Test param type updating
+		from soe.run import f_run
+		result = f_run("test_src_1.main.param_func", [1])
+		function_list = _global.get_function_list()
+		assert function_list["functions"]["test_src_1.main.param_func"]["params"]["a"] == {"int": 1}
 
 
 def test_soe():

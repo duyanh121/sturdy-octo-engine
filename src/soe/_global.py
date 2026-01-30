@@ -1,9 +1,11 @@
 import threading
 import logging
 from soe._types import RunResult
+from pathlib import Path
 
 logger = logging.getLogger('_global')
 
+dir_path = Path()
 function_list: dict[str, dict] = {}
 type_list: dict[type, list] = {}
 error_list: list[RunResult] = []
@@ -16,6 +18,15 @@ def init_global() -> None:
     logger.debug("Initializing global state")
     set_function_list({})
     set_type_list({})
+
+
+def get_dir_path() -> Path:
+    return dir_path
+
+def set_dir_path(path: Path) -> None:
+    global dir_path
+    dir_path = path
+
 
 # function_list
 def get_function_list() -> dict:
@@ -63,6 +74,7 @@ def get_error_list() -> list:
 def add_error(result: RunResult) -> None:
     with _e_lock:
         error_list.append(result)
+
 
 if __name__ == "__main__":
     init_global()

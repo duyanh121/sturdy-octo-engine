@@ -1,5 +1,6 @@
 from pathlib import Path
 import logging
+import sys
 import soe._global as _global
 from soe.run import f_run
 from soe._types import RunUnableToResolve
@@ -8,6 +9,11 @@ logger = logging.getLogger('fuzzer')
 
 def simple_fuzzer(fuzz_dir: Path) -> None:
     func_list = _global.get_function_list()
+    
+    # Handle if function_list has a "functions" wrapper key
+    if "functions" in func_list and isinstance(func_list["functions"], dict):
+        func_list = func_list["functions"]
+    
     for f_name in func_list:
         logger.debug(f"Fuzzing function {f_name}")
 
