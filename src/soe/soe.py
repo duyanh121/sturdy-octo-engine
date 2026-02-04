@@ -6,6 +6,7 @@ from soe import fuzzer
 from soe.function_list.function_list import generate_function_list
 from soe.fuzzer import simple_fuzzer, blackbox_fuzzer
 import soe._global as _global
+from soe.runner.environment import RunnerEnvironment
 
 logger = logging.getLogger('soe')
 
@@ -49,6 +50,11 @@ def main() -> None:
         help="verbose",
     )
     parser.add_argument(
+        "-e", "--environment",
+        action="store_true",
+        help="set up environment only",
+    )
+    parser.add_argument(
         "--no-output",
         action="store_true",
         help="disable file output",
@@ -70,17 +76,22 @@ def main() -> None:
     )
 
     args = parser.parse_args()
-    soe(
-        fuzz_dir=Path(args.path),
-        function_list_file=Path(args.function_list_file),
-        type_list_file=Path(args.type_list_file),
-        output_dir=Path(args.output),
-        fuzzer=args.fuzzer,
-        verbose=args.verbose,
-        no_log=args.no_log,
-        no_save=args.no_save,
-        no_fuzz=args.no_fuzz
-    )
+    if args.environment:
+        with RunnerEnvironment(Path(args.path)) as runner:
+            modules = runner.list_modules()
+            print(modules)
+    else:
+        soe(
+            fuzz_dir=Path(args.path),
+            function_list_file=Path(args.function_list_file),
+            type_list_file=Path(args.type_list_file),
+            output_dir=Path(args.output),
+            fuzzer=args.fuzzer,
+            verbose=args.verbose,
+            no_log=args.no_log,
+            no_save=args.no_save,
+            no_fuzz=args.no_fuzz
+        )
 
 
 def init_logger(level=logging.INFO, no_log=False) -> None:
@@ -173,7 +184,8 @@ def soe(
             raise
 
 
-    if not no_save:
+    # if not no_save:
+    if False:
         if not output_dir.exists():
             output_dir.mkdir(parents=True, exist_ok=True)
 

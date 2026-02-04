@@ -3,7 +3,7 @@ import logging
 import sys
 import soe._global as _global
 from soe.run import f_run
-from soe._types import RunUnableToResolve
+from soe._types import RunStatus, RunUnableToResolve
 
 logger = logging.getLogger('fuzzer')
 
@@ -32,7 +32,7 @@ def simple_fuzzer(fuzz_dir: Path) -> None:
         except RunUnableToResolve as e:
             raise e
 
-        if result[0].status != "SUCCESS":
+        if result[0].status != RunStatus.SUCCESS:
             _global.add_error(result[0])
 
     logger.info("Fuzzing completed. Errors:")
