@@ -8,15 +8,21 @@ class FunctionInfo:
     qualname: str
     module: str
     cls: Optional[str]
+    class_qualname: Optional[str]
     name: str
     # param_name -> {type_name -> count}
     params: Dict[str, Dict[str, int]] = field(default_factory=dict)
 
+    is_class_method: bool = False
+    
     filename: str = ""
     lineno: int = 0
 
     # short names of called functions (store as set for dedup)
     calls: Set[str] = field(default_factory=set)
+
+
+    is_nested: bool = False
 
     def ensure_param(self, param_name: str) -> None:
         """Make sure param exists in params dict."""
@@ -32,6 +38,9 @@ class FunctionInfo:
         return {
             "params": self.params,
             "filename": self.filename,
+            "is_class_method": self.is_class_method,
+            "class": self.cls,
+            "class_qualname": self.class_qualname,
             "lineno": self.lineno,
             "calls": sorted((dep_graph.get(self.qualname, set()) if dep_graph else set())),
         }

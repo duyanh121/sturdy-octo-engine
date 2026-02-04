@@ -28,6 +28,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[downloader,test]"
           downloader -i numpy-8
+          downloader -i pandas-49
+          downloader -i scipy-5
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names

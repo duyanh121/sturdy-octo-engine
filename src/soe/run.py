@@ -1,22 +1,25 @@
 import sys
-import os
 import inspect
-import hashlib
-import importlib.util
-import builtins
+import importlib
 import json
-from soe._global import get_function_list, get_type_list, set_function_list, set_type_list
-from collections import defaultdict
+from pathlib import Path
+
+from soe._global import get_function_list, get_type_list, set_function_list, set_type_list, get_dir_path
+from soe._types import RunUnableToResolve, RunTimeout, RunStatus, RunResult
 import logging
+
+from soe.function_list.function_list import dump_function_list
+
 
 
 logger = logging.getLogger('run')
 type_list = get_type_list()
+function_list = get_function_list()
 
 
 # A helper index to prevent duplicates:
-#   _type_seen[type_key] = set of fingerprints (strings)
-_type_seen = {}  # {"int": {"1","2"}, "numpy.ndarray": {"...hash..."}, ...}
+#   _type_seen[type_class] = set of fingerprints (strings)
+_type_seen = {}  # {<class 'int'>: {"1","2"}, <class 'numpy.ndarray'>: {"...hash..."}, ...}
 
 
 MAX_SAMPLES_PER_TYPE = 50
@@ -51,22 +54,18 @@ def _fingerprint(val) -> str:
     return f"{cls.__module__}.{cls.__qualname__}:{repr(val)}"
 
 
-def type_key(val) -> str:
+def type_key(val):
     """
-    Returns a stable string key for the runtime type of `val` without hard-coding.
+    Returns the actual class type of `val` as the key.
     Examples:
-      3                -> "int"
-      "hi"             -> "str"
-      [1,2]            -> "list"
-      np.array([1,2])  -> "numpy.ndarray"
-      pd.DataFrame(...) -> "pandas.core.frame.DataFrame"
-      None             -> "NoneType"
+      3                -> <class 'int'>
+      "hi"             -> <class 'str'>
+      [1,2]            -> <class 'list'>
+      np.array([1,2])  -> <class 'numpy.ndarray'>
+      pd.DataFrame(...) -> <class 'pandas.core.frame.DataFrame'>
+      None             -> <class 'NoneType'>
     """
-    cls = val.__class__
-    mod = getattr(cls, "__module__", "") or ""
-    qual = getattr(cls, "__qualname__", getattr(cls, "__name__", "unknown"))
-
-    return qual if mod == "builtins" else f"{mod}.{qual}"
+    return val.__class__
 
 
 def _add_type_sample(val):
@@ -86,23 +85,58 @@ def _add_type_sample(val):
 
 
 def resolve_by_dotted_name(dotted: str):
-    # dotted like "numpy.ma.extras.intersect1d"
-    mod_path, func_name = dotted.rsplit(".", 1)
+    """
+    Resolve a callable from a dotted name.
+    Works for:
+      - functions: test_src_1.main.param_func
+      - class methods: test_src_2.main.SampleClass.method_one
+    """
+    # Add path to sys.path
+    fuzz_dir_str = str(get_dir_path().resolve())
+    if fuzz_dir_str not in sys.path:
+        sys.path.insert(0, fuzz_dir_str)
 
-    try:
-        mod = importlib.import_module(mod_path)
-    except ModuleNotFoundError:
+    parts = dotted.split(".")
+
+    last_mod_exc = None
+    # Find the longest importable module prefix.
+    # Example:
+    #   tests.test_repo.test_src_2.main.SampleClass.method_one
+    # module prefix is:
+    #   tests.test_repo.test_src_2.main
+    for i in range(len(parts), 0, -1):
+        mod_name = ".".join(parts[:i])
         try:
-            mod = importlib.import_module(f"numpy.{mod_path}")
-        except ModuleNotFoundError:
-            raise
+            mod = importlib.import_module(mod_name)
+            attr_parts = parts[i:]  # remaining attributes
+            obj = mod
+            for a in attr_parts:
+                obj = getattr(obj, a)
 
-    fn = getattr(mod, func_name)
-    if not callable(fn):
-        raise TypeError(f"{dotted} is not callable")
-    return fn
+            if not callable(obj):
+                raise RunUnableToResolve(f"{dotted} resolved to non-callable: {type(obj)}")
+
+            # If it's an unbound function pulled from a class, return it as a function object
+            # (accessing via class gives you a function; via instance gives a bound method).
+            # Here, we always traverse from module -> class -> function, so this is already "function".
+            return obj
+
+        except ModuleNotFoundError as e:
+            last_mod_exc = e
+            continue
+        except AttributeError as e:
+            # Module imported, but attribute chain failed: that's a real resolve failure.
+            raise RunUnableToResolve(f"Attribute not found while resolving {dotted}: {e}") from e
+        except Exception as e:
+            raise RunUnableToResolve(f"Failed to resolve {dotted}: {e}") from e
+
+    # No module prefix could be imported
+    if last_mod_exc:
+        raise RunUnableToResolve(f"Cannot import any module prefix of {dotted}: {last_mod_exc}") from last_mod_exc
+    raise RunUnableToResolve(f"Cannot resolve: {dotted}")
 
 
+# remove
 def json_safe(obj):
     if obj is None or isinstance(obj, (int, float, str, bool)):
         return obj
@@ -121,31 +155,104 @@ def json_safe(obj):
         "repr": repr(obj)
     }
 
-
+# remove
 def dump_type_list_to_json(type_list, path="type_list.json"):
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(
-            {k: [json_safe(v) for v in vals] for k, vals in type_list.items()},
-            f,
-            indent=2
-        )
+        # Convert class type keys to string representation for JSON serialization
+        json_dict = {}
+        for cls_type, vals in type_list.items():
+            type_key_str = f"{cls_type.__module__}.{cls_type.__qualname__}" if hasattr(cls_type, "__module__") else str(cls_type)
+            json_dict[type_key_str] = [json_safe(v) for v in vals]
+        json.dump(json_dict, f, indent=2)
 
 
-def run(f_name, params=[]) -> dict:
+def f_run(f_name, params=[]) -> tuple[RunResult, dict]:
     '''
-    Run function with given parameters and get type samples
+    Wrapper for run function to match other module style
 
     :param f_name: function name from function list
     :param params: parameters to run with
 
     :return: type list
     '''
-
-
     if params is None:
         params = []
 
     target_fn = resolve_by_dotted_name(f_name)
+
+    result = run(target_fn, params)
+    result[0].f_name = f_name
+    return result
+
+
+def type_name(val) -> str:
+    """Return the string key used in function_list/type_list."""
+
+    t = type(val)
+
+    # Common builtins: "int", "str", "list", ...
+    if t.__module__ == "builtins":
+        return t.__name__
+
+    # Fallback: class name only (you can change to module-qualified if you want)
+    return t.__name__
+
+
+def _inc_param_type(func_name: str, param_name: str, val):
+    """
+    function_list["functions"][func_name]["params"][param_name][type_str] += 1
+    Add new type keys dynamically if needed.
+    """
+    try:
+        type_k = type_name(val)
+        function_list = get_function_list()
+        params = function_list["functions"][func_name].setdefault("params", {})
+        param_types = params.setdefault(param_name, {})
+        param_types[type_k] = param_types.get(type_k, 0) + 1
+    except Exception as e:
+        print(f"Error in _inc_param_type: {e}")
+        import traceback
+        traceback.print_exc()
+
+
+
+def merge_type_dicts_unique(d1, d2):
+    merged = {}
+
+    for key in set(d1) | set(d2):
+        combined = d1.get(key, []) + d2.get(key, [])
+
+        seen = set()
+        unique_items = []
+
+        for item in combined:
+            # Make unhashable items hashable by converting to a tuple of sorted items
+            if isinstance(item, dict):
+                marker = tuple(sorted(item.items()))
+            else:
+                marker = item
+
+            if marker not in seen:
+                seen.add(marker)
+                unique_items.append(item)
+
+        merged[key] = unique_items
+
+    return merged
+
+
+def run(target_fn, params=[]) -> tuple[RunResult, dict]:
+    '''
+    Run function with given parameters and get type samples
+
+    :param target_fn: function
+    :param params: parameters to run with
+
+    :return: type list
+    '''
+
+    if params is None:
+        params = []
 
     # Track frames descended from this run call
     tracked_frames = set()
@@ -154,10 +261,12 @@ def run(f_name, params=[]) -> dict:
     def tracer(frame, event, arg):
         if event == "call":
             code = frame.f_code
-            callee_name = code.co_name
+            module_name = frame.f_globals.get('__name__', '')
+            qualname = code.co_qualname
+            callee_name = f"{module_name}.{qualname}" if module_name else qualname
 
             # Start tracking once we enter target function; then include children
-            is_target_entry = (callee_name == target_fn.__name__ and frame.f_code is target_fn.__code__)
+            is_target_entry = (code.co_name == target_fn.__name__ and frame.f_code is target_fn.__code__)
             is_child_of_tracked = (frame.f_back in tracked_frames)
 
             if is_target_entry or is_child_of_tracked:
@@ -165,7 +274,8 @@ def run(f_name, params=[]) -> dict:
                 locals_seen_keys[id(frame)] = set(frame.f_locals.keys())
                 function_list = get_function_list()
                 # Only update function_list for functions we care about
-                if callee_name in function_list:
+                funcs = function_list.get("functions", {})
+                if callee_name in funcs:
                     # Record params with inspect signature binding
                     try:
                         sig = inspect.signature(frame.f_globals.get(callee_name, None) or target_fn)
@@ -187,6 +297,7 @@ def run(f_name, params=[]) -> dict:
 
                         # Update counters + samples
                         for p, v in argmap.items():
+                            _inc_param_type(callee_name, p, v) 
                             _add_type_sample(v)
 
                     except Exception:
@@ -226,12 +337,40 @@ def run(f_name, params=[]) -> dict:
 
         return tracer
 
+
+    exception = None
+
     old_trace = sys.gettrace()
     sys.settrace(tracer)
     try:
         target_fn(*params)
-        dump_type_list_to_json(type_list)
-        print(type_list)
-        return type_list
+    except RunTimeout as e:
+        sys.settrace(old_trace)
+        exception = e
+    except Exception as e:
+        sys.settrace(old_trace)
+        exception = e
     finally:
         sys.settrace(old_trace)
+
+    status = RunStatus.SUCCESS
+    if exception is not None:
+        if isinstance(exception, RunUnableToResolve):
+            status = RunStatus.ERROR
+        elif isinstance(exception, RunTimeout):
+            status = RunStatus.TIMEOUT
+        else:
+            status = RunStatus.ERROR
+    else:
+        # TODO: merge (not replace) with global type list
+        # set_type_list(...)
+        set_type_list(merge_type_dicts_unique(type_list, get_type_list()))
+        print("Updated type list with samples.")
+        dump_type_list_to_json(get_type_list())
+        dump_function_list(get_function_list())
+        
+
+    return RunResult(f=target_fn, params=params, status=status), type_list
+
+
+
