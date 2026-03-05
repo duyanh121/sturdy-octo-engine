@@ -1,18 +1,18 @@
 {
-    "python.analysis.autoImportCompletions": true,
-    "python.analysis.typeCheckingMode": "standard",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "standard",
 
-    "search.exclude": {
-        "**/downloads/": true,
-        "**/repos/**": true,
-    },
+  "search.exclude": {
+    "**/downloads/": true,
+    "**/repos/**": true
+  },
 
-    "files.exclude": {
-        "**/*.egg-info": true,
-        "**/*__pycache__": true
-    },
+  "files.exclude": {
+    "**/*.egg-info": true,
+    "**/*__pycache__": true
+  },
 
-    "python.analysis.ignore": [
-        "**/downloads/**",
-    ],
+  "python.analysis.ignore": ["**/downloads/**"],
+  "python-envs.defaultEnvManager": "ms-python.python:conda",
+  "python-envs.defaultPackageManager": "ms-python.python:conda"
 }
